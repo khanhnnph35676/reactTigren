@@ -16,8 +16,10 @@ h1 {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 20px;
-    padding: 0;
     list-style: none;
+    padding: 20px;
+    margin-bottom: 20px;
+    min-height: 400px;
 }
 
 .product-card {
@@ -27,10 +29,17 @@ h1 {
     overflow: hidden;
     padding: 5px;
     transition: transform 0.3s ease;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
 }
 
 .wrapper-img {
     text-align: center;
+}
+
+.wrapper-img img {
+    width: 100%;
 }
 
 .wrapper-content {
@@ -40,6 +49,7 @@ h1 {
 
 .product-card:hover {
     transform: translateY(-5px);
+    box-shadow: 0px 0px 10px #cccccc;
 }
 
 
@@ -52,20 +62,21 @@ h1 {
 
 /* Tên sản phẩm */
 .product-name {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     color: #333;
 }
 
 /* Giá sản phẩm */
 .product-price {
     font-size: 1.2rem;
-    color: #888;
+    color: #181818;
     margin-bottom: 15px;
+    font-weight: 500;
 }
 
 /* Nút "Add to Cart" */
 .product-button {
-    background-color: #ff6347;
+    background-color: #333;
     color: white;
     padding: 10px 20px;
     border: none;
@@ -75,5 +86,65 @@ h1 {
 }
 
 .product-button:hover {
-    background-color: #e55342;
+    background-color: #000000;
+}
+
+/*-------------------------chi tiết sản phẩm-----------------*/
+.product-image {
+    width: 40%;
+}
+
+.product-image img {
+    width: 100%;
+}
+
+.product-container {
+    display: flex;
+    background: #f4f4f4;
+    margin: 20px 0px 20px 0px;
+}
+
+.product-info {
+    margin: 0;
+    background: white;
+    width: 100%;
+    text-align: left;
+    padding-left: 30px;
+}
+
+.name-product {
+    margin: 0;
+    text-align: left;
+}
+
+.add-to-cart {
+    width: 200px;
+    height: 50px;
+    background: #333;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* Style cho input số lượng */
+input[type="number"] {
+    width: 40px; /* Chiều rộng của input */
+    padding: 5px; /* Padding cho bên trong input */
+    font-size: 16px; /* Kích thước chữ trong input */
+    border: 1px solid #ccc; /* Đường viền xung quanh input */
+    border-radius: 4px; /* Bo góc cho input */
+    margin-left: 10px; /* Khoảng cách giữa nhãn và input */
+    outline: none; /* Ẩn đường viền khi focus */
+    transition: border-color 0.3s; /* Hiệu ứng chuyển tiếp cho border color */
+}
+
+/* Hiệu ứng khi hover */
+input[type="number"]:hover {
+    border-color: #007bff; /* Đổi màu viền khi hover */
+}
+
+/* Hiệu ứng khi focus */
+input[type="number"]:focus {
+    border-color: #0056b3; /* Đổi màu viền khi focus */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Hiệu ứng đổ bóng khi focus */
 }

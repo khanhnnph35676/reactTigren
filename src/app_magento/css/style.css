@@ -5,6 +5,11 @@
     padding: 0;
 }
 
+a {
+    text-decoration: none;
+    color: #222222;
+}
+
 .wrapper-header {
     background-color: #333;
 }
@@ -63,6 +68,12 @@
     align-items: center;
 }
 
+.icon span {
+    font-size: 15px;
+    font-weight: 600;
+    color: white;
+}
+
 .header-icons .icon {
     color: white;
     margin-left: 20px;
@@ -72,10 +83,63 @@
     padding: 5px;
 }
 
+.icon {
+    position: relative; /* Để hiển thị giỏ hàng ở vị trí đúng */
+    cursor: pointer; /* Thay đổi con trỏ khi di chuột qua biểu tượng */
+}
+
+.icon a {
+    color: white;
+}
+
+.cart-list {
+    display: none; /* Ẩn giỏ hàng mặc định */
+    position: absolute; /* Để định vị giỏ hàng so với icon */
+    top: 100%; /* Đặt giỏ hàng ngay bên dưới icon */
+    right: 0; /* Đặt giỏ hàng ở bên phải icon */
+    background-color: white; /* Màu nền cho giỏ hàng */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Đổ bóng cho giỏ hàng */
+    z-index: 1; /* Đảm bảo giỏ hàng ở trên các phần tử khác */
+    padding: 10px; /* Khoảng cách bên trong giỏ hàng */
+    border-radius: 4px; /* Bo góc cho giỏ hàng */
+    min-width: 400px;
+}
+
+.checkout {
+    padding: 10px 20px 10px 20px;
+    background: #555555;
+    color: #f4f4f4;
+    min-width: 70%;
+    font-size: 22px;
+    cursor: pointer;
+    border: none;
+    font-weight: 700;
+}
+
+.checkout:hover {
+    background: #333;
+}
+
+.cart-list.open {
+    display: block; /* Hiện giỏ hàng khi trạng thái là open */
+}
+
+.cart-list ul {
+    list-style: none; /* Bỏ dấu đầu dòng cho danh sách */
+    padding: 0; /* Bỏ khoảng cách bên trong cho danh sách */
+    margin: 0; /* Bỏ khoảng cách bên ngoài cho danh sách */
+}
+
+.cart-list li {
+    margin-bottom: 5px;
+    color: #333; /* Khoảng cách giữa các sản phẩm trong giỏ hàng */
+    font-size: 20px;
+}
+
+
 .header-icons .icon:hover {
     background-color: #555;
     border-radius: 5px;
-
 }
 
 .wrapper-user {
@@ -258,5 +322,100 @@ button[type="submit"]:hover {
 
 /*------------------------ end Login-----------------------*/
 
+/*------------------------ start user-----------------------*/
+.content-user {
+    display: flex;
+}
+
+.sider-bar {
+    width: 15%;
+    border: 1px solid #dddddd;
+    margin: 0;
+}
+
+.box {
+    height: 100px;
+    background: #f4f4f4;
+}
+
+.sider-bar ul {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-flow: column;
+    text-align: left;
+}
+
+.sider-bar ul li {
+    display: inline;
+    cursor: pointer;
+    padding: 10px 0px 10px 20px;
+    box-sizing: border-box;
+    width: 100%;
+    font-weight: 500;
+}
+
+.sider-bar ul li:hover {
+    background: #dddddd;
+}
+
+.content {
+    margin: auto;
+    width: 90%;
+    padding: 10px;
+    border: 1px solid #cccccc;
+    border-radius: 10px;
+}
+
+.content span {
+    color: #333333;
+    font-weight: 500;
+    font-size: 17px;
+}
+
+.content-cart {
+    text-align: left;
+    margin: 10px 10px 10px 20px;
+}
+
+.d-flex {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.qty-container {
+    display: flex; /* Sử dụng flexbox để căn chỉnh */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    margin: 10px 0; /* Thêm khoảng cách giữa các phần tử */
+}
+
+.qty-label {
+    font-weight: bold; /* Đậm chữ 'Qty' */
+    margin-right: 10px; /* Khoảng cách giữa label và input */
+}
+
+.qty-input {
+    width: 50px; /* Chiều rộng của input */
+    height: 30px; /* Chiều cao của input */
+    padding: 5px; /* Khoảng đệm bên trong */
+    border: 1px solid #ccc; /* Đường viền */
+    border-radius: 5px; /* Bo tròn các góc */
+    text-align: center; /* Căn giữa văn bản trong input */
+    font-size: 14px; /* Kích thước chữ */
+    color: #333; /* Màu chữ */
+    background-color: #f9f9f9; /* Màu nền */
+}
+
+.qty-input:read-only {
+    background-color: #e9ecef; /* Màu nền khác cho input khi readOnly */
+}
+
+/*------------------------ end user-----------------------*/
+/*------------------------ start cart-----------------------*/
+
+
+/*------------------------ end cart-----------------------*/
 
 /*------------------------ start Responsive-----------------------*/
+/*------------------------ end Responsive-----------------------*/

@@ -1,5 +1,4 @@
 import React from 'react';
-import './css/style.css'
 import Header from './layout/header'
 import Footer from './layout/footer'
 import ListProduct from "./product/list";

@@ -1,35 +1,35 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import logo from '../img/tigren-logo.png';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
+import {BASE_URL} from "../link";
+import axios from "axios";
+import Cart from '../order/cart'
+
+const URL = BASE_URL + '/graphql';
 
 const CustomerDropdown = ({onClose}) => {
-    const token = localStorage.getItem('customerToken');
+    const navigate = useNavigate();
+    const handleLogout = () => {
+        // Xóa token khỏi localStorage
+        localStorage.removeItem('customerToken');
+        navigate('/login'); // Điều hướng đến trang đăng nhập
+        onClose(); // Đóng dropdown nếu cần
+    };
+
+    const token = localStorage.getItem('customerToken'); // Lấy token ở đây
+
     return (
         <div className="customer-dropdown">
             <ul>
                 {!token ? (
-                    <>
-                        <li>
-                            <Link to="/login">
-                                <i className="fa fa-sign-in" aria-hidden="true"></i> {/* Icon cho đăng nhập */}
-                                Login
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to="/listOrder">
-                                <i className="fa fa-shopping-bag" aria-hidden="true"></i> {/* Icon cho đơn hàng */}
-                                Orders
-                            </Link>
-                        </li>
-                    </>
+                    <li>
+                        <Link to="/login">
+                            <i className="fa fa-sign-in" aria-hidden="true"></i> {/* Icon cho đăng nhập */}
+                            Login
+                        </Link>
+                    </li>
                 ) : (
                     <>
-                        <li>
-                            <Link to="/login">
-                                <i className="fa fa-sign-in" aria-hidden="true"></i> {/* Icon cho đăng nhập */}
-                                Login
-                            </Link>
-                        </li>
                         <li>
                             <a href='#'>
                                 <i className="fa fa-user" aria-hidden="true"></i> {/* Icon cho thông tin khách hàng */}
@@ -43,7 +43,7 @@ const CustomerDropdown = ({onClose}) => {
                             </Link>
                         </li>
                         <li>
-                            <a href="#" onClick={onClose}>
+                            <a href="#" onClick={handleLogout}>
                                 <i className="fa fa-power-off" aria-hidden="true"></i> {/* Icon cho đăng xuất */}
                                 Logout
                             </a>
@@ -86,7 +86,7 @@ function Header() {
                         </a>
                         {isDropdownOpen && <CustomerDropdown onClose={toggleDropdown}/>}
                     </div>
-                    <a href="#" className="icon"><i className="fa fa-shopping-cart" aria-hidden="true"></i></a>
+                    <Cart/>
                 </div>
             </div>
         </div>

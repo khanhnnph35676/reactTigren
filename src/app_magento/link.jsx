@@ -1,0 +1,1 @@
+export const BASE_URL = 'http://magento246.com';

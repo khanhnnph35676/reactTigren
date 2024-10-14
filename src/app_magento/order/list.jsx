@@ -2,29 +2,76 @@ import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import Header from '../layout/header';
 import Footer from '../layout/footer';
+import SiderBar from './sider-bar';
 import '../css/order.css';
+import {Link} from 'react-router-dom';
+import {BASE_URL} from '../link';
 
 const ListOrder = () => {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
-    const createSampleData = () => {
-        return [
-            {id: 1, customerName: 'Nguyễn Văn A', total: 150.00, status: 'Đã giao'},
-            {id: 2, customerName: 'Trần Thị B', total: 200.50, status: 'Đang xử lý'},
-            {id: 3, customerName: 'Lê Văn C', total: 120.75, status: 'Đã giao'},
-            {id: 4, customerName: 'Phạm Thị D', total: 95.00, status: 'Đã hủy'},
-        ];
-    };
-
+    const tokenData = localStorage.getItem('customerToken');
+    const parsedTokenData = JSON.parse(tokenData);
+    const token = parsedTokenData.token;
+    const URL = BASE_URL + '/graphql';
     useEffect(() => {
+        const query = `{
+              customer {
+                orders(pageSize: 10, currentPage: 1) {
+                  items {
+                    id
+                    increment_id
+                    status
+                    created_at
+                    total {
+                      grand_total {
+                        value
+                        currency
+                      }
+                    }
+                    items {
+                      product_name
+                      quantity_ordered
+                      product_sale_price {
+                        value
+                        currency
+                      }
+                    }
+                  }
+                  total_count
+                  page_info {
+                    current_page
+                    page_size
+                  }
+                }
+              }
+            }`;
+        console.log('Token: ', token);
         const fetchOrders = async () => {
             try {
-                // Thay thế API call bằng dữ liệu mẫu
-                // const response = await axios.get('http://magento246.com/rest/V1/integration/customer/token');
-                const sampleData = createSampleData(); // Gọi hàm tạo dữ liệu mẫu
-                setOrders(sampleData);
+                const response = await axios.post(URL, {
+                    query: query
+                }, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                console.log(response.data.customer);
+                console.log(token);
+                // In ra dữ liệu phản hồi từ API
+                if (!response.data.data || !response.data.data.customer || !response.data.data.customer.orders.items.length) {
+                    setError('Không có thông tin đơn hàng.');
+                } else {
+                    const fetchedOrders = response.data.data.customer.orders.items.map(order => ({
+                        id: order.increment_id,
+                        date: order.created_at,
+                        total: order.total.grand_total.value,
+                        currency: order.total.grand_total.currency,
+                        status: order.status,
+                    }));
+                    setOrders(fetchedOrders);
+                }
             } catch (err) {
                 setError(err.message);
             } finally {
@@ -35,35 +82,41 @@ const ListOrder = () => {
         fetchOrders();
     }, []);
 
-    if (loading) return <div>Loading...</div>;
-    if (error) return <div>Error: {error}</div>;
-
     return (
         <div>
             <Header/>
+            <div className="container content-user">
+                <SiderBar/>
 
-            <div className="container">
-                <h1 className='headeLine'>Lịch sử đơn hàng</h1>
-                <ul className='list-order'>
-                    {orders.map(order => (
-                        <li key={order.id}>
-                            <a href="" className='content-order'>
-                                <h5>Đơn hàng #{order.id}</h5>
-                                <p>Ngày đặt: {new Date(order.date).toLocaleDateString()}</p>
-                                <p>Tổng: {order.total} VND</p>
-                                <p>Trạng thái: {order.status}</p>
-                                <p className="order-actions">
-                                    <i className="fa fa-edit" aria-hidden="true" title="Chỉnh sửa"></i>
-                                    <i className="fa fa-trash" aria-hidden="true" title="Xóa"></i>
-                                </p>
-                            </a>
-                        </li>
-                    ))}
-                </ul>
+                <div className="content">
+                    <h1 className='headeLine'>History Orders</h1>
+                    <hr/>
+                    <ul className='list-order'>
+                        {orders.length === 0 ? (
+                            <div>Không có đơn hàng nào</div>
+                        ) : (
+                            <ul className='list-order'>
+                                {orders.map(order => (
+                                    <li key={order.id}>
+                                        <Link to='#' className='content-order'>
+                                            <h5>Đơn hàng #{order.id}</h5>
+                                            <p>Ngày đặt: {new Date(order.date).toLocaleDateString()}</p>
+                                            <p>Tổng: {order.total} {order.currency}</p>
+                                            <p>Trạng thái: {order.status}</p>
+                                            <p className="order-actions">
+                                                <i className="fa fa-edit" aria-hidden="true" title="Chỉnh sửa"></i>
+                                                <i className="fa fa-trash" aria-hidden="true" title="Xóa"></i>
+                                            </p>
+                                        </Link>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                    </ul>
+                </div>
             </div>
             <Footer/>
         </div>
     );
 };
-
 export default ListOrder;
