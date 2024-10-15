@@ -5,6 +5,7 @@ import Login from './login';
 import ListOrder from './order/list'
 import 'font-awesome/css/font-awesome.min.css';
 import ProductDetail from './product/detail';
+import Checkout from './order/checkout'
 import './css/style.css'
 
 function Index() {
@@ -16,6 +17,7 @@ function Index() {
                     <Route path="/login" element={<Login/>}/>
                     <Route path="/productDetail" element={<ProductDetail/>}/>
                     <Route path="/listOrder" element={<ListOrder/>}/>
+                    <Route path="/checkout" element={<Checkout/>}/>
                     <Route path="*" element={<Navigate to="/"/>}/>
                 </Routes>
             </div>

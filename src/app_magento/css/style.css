@@ -388,6 +388,11 @@ button[type="submit"]:hover {
     display: flex; /* Sử dụng flexbox để căn chỉnh */
     align-items: center; /* Căn giữa theo chiều dọc */
     margin: 10px 0; /* Thêm khoảng cách giữa các phần tử */
+    color: #333;
+}
+
+#deleteicon {
+    color: #333333;
 }
 
 .qty-label {
@@ -414,6 +419,23 @@ button[type="submit"]:hover {
 /*------------------------ end user-----------------------*/
 /*------------------------ start cart-----------------------*/
 
+.order-actions a {
+    color: #333333;
+}
+
+.content-cart .content:hover {
+    background: #f4f4f4;
+}
+
+.content-cart {
+    height: 350px;
+    overflow: auto;
+}
+
+.order-actions a :hover {
+    background: #333333;
+    color: white;
+}
 
 /*------------------------ end cart-----------------------*/
 

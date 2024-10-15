@@ -9,14 +9,14 @@ const URL = BASE_URL + '/graphql';
 
 const CustomerDropdown = ({onClose}) => {
     const navigate = useNavigate();
+    const token = localStorage.getItem('customerToken'); // Lấy token ở đây
+
     const handleLogout = () => {
         // Xóa token khỏi localStorage
         localStorage.removeItem('customerToken');
         navigate('/login'); // Điều hướng đến trang đăng nhập
         onClose(); // Đóng dropdown nếu cần
     };
-
-    const token = localStorage.getItem('customerToken'); // Lấy token ở đây
 
     return (
         <div className="customer-dropdown">

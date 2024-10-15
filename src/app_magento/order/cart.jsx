@@ -12,24 +12,70 @@ function Cart() {
     const [grandTotal, setGrandTotal] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
-    // const token = localStorage.getItem('customerToken');
     const tokenData = localStorage.getItem('customerToken');
-
     const token = tokenData ? JSON.parse(tokenData).token : null;
+    const handleDelete = async (id) => {
+        const deleteCartMutation = `mutation {
+            removeItemFromCart(
+              input: {
+                cart_id: "${cartId}"
+                cart_item_id: ${id}
+              }
+            ) {
+              cart {
+                items {
+                  id
+                }
+              }
+            }
+          }`;
 
+        if (window.confirm('Are you sure you want to delete?')) {
+            try {
+                // Gửi mutation lên API GraphQL
+                const response = await axios(URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}` // Token truy cập của người dùng (nếu có)
+                    },
+                    body: JSON.stringify({
+                        query: deleteCartMutation
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.data) {
+                    // Nếu xóa thành công, cập nhật lại giỏ hàng
+                    const updatedCart = cartItems.filter(item => item.id !== id);
+                    setCartItems(updatedCart);
+                    console.log('Item deleted successfully');
+                } else {
+                    console.error('Failed to delete the item:', result.errors);
+                }
+            } catch (error) {
+                console.error('Error during deletion:', error);
+            }
+        }
+    };
     const toggleCart = (e) => {
         // e.preventDefault(); // Ngăn chặn hành động mặc định của thẻ <a>
         setIsCartOpen(!isCartOpen); // Đảo ngược trạng thái mở của giỏ hàng
     };
+    const handleCartClick = (e) => {
+        e.stopPropagation();
+    };
+
     const cart = `
     mutation {
       createEmptyCart
     }`;
-
     const query = `
         {
         cart(cart_id: "${cartId}") {
                 items {
+                    id
                   product {
                     name
                     sku
@@ -68,10 +114,9 @@ function Cart() {
                         'Authorization': `Bearer ${token}`
                     }
                 });
-
                 const cartIdFromResponse = cartIdResponse.data.data.createEmptyCart;
                 setCartId(cartIdFromResponse);
-
+                localStorage.setItem('cartId', cartIdFromResponse);
                 const response = await axios.post(URL, {
                     query: query
                 }, {
@@ -94,33 +139,49 @@ function Cart() {
     }, [token, cartId]);
 
     return (
-        <div className="icon" onClick={toggleCart}>
+        <div className="icon cart" onClick={toggleCart}>
             <a href="#">
                 <i className="fa fa-shopping-cart" aria-hidden="true"></i>
                 <span>({cartItems.length})</span> {/* Cập nhật số lượng giỏ hàng */}
             </a>
-            <div className={`cart-list ${isCartOpen ? 'open' : ''}`}>
+            {/*{isCartOpen && <Cart onClose={toggleCart}/>}*/}
+            <div className={`cart-list ${isCartOpen ? 'open' : ''}`} onClick={handleCartClick}>
                 <ul>
                     <li>
-                        <a href=''>
+                        <Link to='/checkout'>
                             <button className='checkout'>Checkout</button>
-                        </a>
+                        </Link>
                         <hr/>
                     </li>
                     {cartItems.length > 0 ? (
                         <ul className='content-cart'>
                             {cartItems.map((item, index) => (
                                 <li className='content' key={index}>
-                                    <div className="d-flex">
-                                        <img src={item.product.image.url} alt={item.product.name} width={70}/>
-                                        <span>{item.product.name} - {item.product.sku}</span>
-                                    </div>
-                                    <p><strong>${item.prices.price.value}</strong></p>
-                                    <p className="qty-container">
+                                    <Link to='/productDetail'>
+                                        <div className="d-flex">
+                                            <img src={item.product.image.url} alt={item.product.name} width={70}/>
+                                            <div>
+                                                <span>{item.product.name} - {item.product.sku}</span>
+                                                <br/>
+                                                <span><strong>${item.prices.price.value}</strong></span>
+                                            </div>
+                                        </div>
+                                    </Link>
+                                    <div className="qty-container">
                                         <span className="qty-label">Qty:</span>
-                                        <input className="qty-input" type="text" value={item.quantity} readOnly/>
-                                    </p>
-
+                                        <div className="d-flex">
+                                            <input className="qty-input" type="text" value={item.quantity} readOnly/>
+                                            <div className="order-actions">
+                                                <a href="#">
+                                                    <i className="fa fa-edit" aria-hidden="true" title="Chỉnh sửa"></i>
+                                                </a>
+                                                <a href="#">
+                                                    <i className="fa fa-trash" aria-hidden="true"
+                                                       onClick={() => handleDelete(item.id)} title="Xóa"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </li>
                             ))}
                         </ul>

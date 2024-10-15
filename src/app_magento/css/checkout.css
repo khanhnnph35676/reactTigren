@@ -1,0 +1,32 @@
+.checkout-form {
+    display: flex;
+    justify-content: space-between;
+    margin: 30px;
+}
+
+.checkout-container {
+    text-align: left;
+    background: #f0f0f0;
+    padding: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+.checkout-container h1 {
+    text-align: left;
+}
+
+.form-section {
+    min-width: 65%;
+}
+
+.form-method {
+    min-width: 30%;
+}
+
+.border {
+    border-radius: 5px;
+    border: 1px solid #cccccc;
+    padding: 10px;
+}
