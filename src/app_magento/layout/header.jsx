@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import logo from '../img/tigren-logo.png';
+import logo from '../img/logo.webp';
 import {Link, useNavigate} from 'react-router-dom';
 import {BASE_URL} from "../link";
 import axios from "axios";
@@ -14,6 +14,7 @@ const CustomerDropdown = ({onClose}) => {
     const handleLogout = () => {
         // Xóa token khỏi localStorage
         localStorage.removeItem('customerToken');
+        localStorage.removeItem('cartId');
         navigate('/login'); // Điều hướng đến trang đăng nhập
         onClose(); // Đóng dropdown nếu cần
     };
@@ -55,8 +56,24 @@ const CustomerDropdown = ({onClose}) => {
     );
 }
 
+const DropdownBlog = () => {
+    return (
+        <div className="blog-dropdown">
+            <ul>
+                <li>danh mục blog</li>
+                <li>danh mục blog</li>
+                <li>danh mục blog</li>
+            </ul>
+        </div>
+    );
+};
+
 function Header() {
     const [isDropdownOpen, setDropdownOpen] = useState(false);
+    const [isBlogOpen, setBlogOpen] = useState(false);
+    const toggleBlogDropdown = () => {
+        setBlogOpen(!isBlogOpen);
+    };
 
     const toggleDropdown = () => {
         setDropdownOpen(!isDropdownOpen);
@@ -73,17 +90,19 @@ function Header() {
                 <nav className="navbar">
                     <ul>
                         <li><Link to="/">Home</Link></li>
-                        <li><a href="#">Product</a></li>
-                        <li><a href="#">Block</a></li>
-                        <li><a href="#">About</a></li>
+                        <li><a href="">About</a></li>
+                        <li><a href="/listProduct">Product</a></li>
+                        <li className='blog-header-name'><a onClick={toggleBlogDropdown} href="#">Blog</a>
+                            {isBlogOpen && <DropdownBlog onClose={toggleBlogDropdown}/>}
+                        </li>
                         <li><a href="#">Contact</a></li>
                     </ul>
                 </nav>
                 <div className="header-icons">
                     <div className="wrapper-user">
-                        <a href="#" className="icon" onClick={toggleDropdown}>
+                        <span className="icon" onClick={toggleDropdown}>
                             <i className="fa fa-user" aria-hidden="true"></i>
-                        </a>
+                        </span>
                         {isDropdownOpen && <CustomerDropdown onClose={toggleDropdown}/>}
                     </div>
                     <Cart/>

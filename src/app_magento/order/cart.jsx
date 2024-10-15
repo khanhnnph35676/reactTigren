@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import logo from '../img/tigren-logo.png';
 import {Link, useNavigate} from 'react-router-dom';
 import {BASE_URL} from "../link";
 import axios from "axios";
@@ -29,11 +28,11 @@ function Cart() {
               }
             }
           }`;
-
+        console.log(cartId)
         if (window.confirm('Are you sure you want to delete?')) {
             try {
                 // Gửi mutation lên API GraphQL
-                const response = await axios(URL, {
+                const response = await fetch(URL, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -62,9 +61,6 @@ function Cart() {
     const toggleCart = (e) => {
         // e.preventDefault(); // Ngăn chặn hành động mặc định của thẻ <a>
         setIsCartOpen(!isCartOpen); // Đảo ngược trạng thái mở của giỏ hàng
-    };
-    const handleCartClick = (e) => {
-        e.stopPropagation();
     };
 
     const cart = `
@@ -145,7 +141,7 @@ function Cart() {
                 <span>({cartItems.length})</span> {/* Cập nhật số lượng giỏ hàng */}
             </a>
             {/*{isCartOpen && <Cart onClose={toggleCart}/>}*/}
-            <div className={`cart-list ${isCartOpen ? 'open' : ''}`} onClick={handleCartClick}>
+            <div className={`cart-list ${isCartOpen ? 'open' : ''}`}>
                 <ul>
                     <li>
                         <Link to='/checkout'>

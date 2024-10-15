@@ -3,7 +3,6 @@ import axios from 'axios';
 import Header from '../layout/header';
 import Footer from '../layout/footer';
 import SiderBar from './sider-bar';
-import '../css/order.css';
 import {Link} from 'react-router-dom';
 import {BASE_URL} from '../link';
 

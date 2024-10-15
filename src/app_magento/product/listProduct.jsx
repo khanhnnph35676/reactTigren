@@ -1,13 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import {Link, useNavigate} from 'react-router-dom';
+import {Link} from 'react-router-dom';
+import Header from '../layout/header';
+import Footer from '../layout/footer';
 import axios from 'axios';
 import {BASE_URL} from '../link';
 
-function ListProduct() {
+function ListPage() {
     const [products, setProducts] = useState([]); // Khởi tạo state cho sản phẩm
     const [error, setError] = useState('');
     const URL = BASE_URL + '/graphql';
-    const navigate = useNavigate();
     useEffect(() => {
         // Hàm lấy sản phẩm từ API
         const fetchProducts = async () => {
@@ -120,37 +121,49 @@ function ListProduct() {
             }
         }
     };
-
-    const handleDetaiPro = (sku) => {
-        // const encodedSku = encodeURIComponent(sku);
-        // console.log(`/productDetail/${encodedSku}`);
-        navigate(`/productDetail/${sku}`);
-    }
     return (
-        <div className="product-page container">
-            {error && <p style={{color: 'red'}}>{error}</p>} {/* Hiển thị thông báo lỗi nếu có */}
-            <div className="products-grid">
-                {products.map(product => (
-                    <div key={product.id} className="product-card">
+        <>
+            <Header/>
 
-                        <div className="wrapper-img">
-                            <span onClick={() => handleDetaiPro(product.sku)}>
-                                <img src={product.image.url} alt={product.name} className="product-image"/>
-                            </span>
-                        </div>
-                        <div className="wrapper-content">
-                            <h2 className="product-name">{product.name}</h2>
-                            <p className="product-price">Price:
-                                ${product.price_range.minimum_price.regular_price.value}</p>
-                            <button className="product-button" onClick={() => handleAddToCart(product.sku)}>Add to
-                                Cart
-                            </button>
-                        </div>
+            <div className="product-list container">
+                <div className="list-product--siderbar">
+                    <div className="box"></div>
+                    <ul>
+                        <li>Danh muc 1</li>
+                        <li>Danh muc 1</li>
+                        <li>Danh muc 1</li>
+
+                    </ul>
+                </div>
+                <div className="list-product--content">
+                    <h1>List Products</h1>
+                    <div className="products-grid">
+                        {products.map(product => (
+                            <div key={product.id} className="product-card">
+                                <div className="wrapper-img">
+                                    <Link to='/productDetail'>
+                                        <img src={product.image.url} alt={product.name} className="product-image"/>
+                                    </Link>
+                                </div>
+                                <div className="wrapper-content">
+                                    <h2 className="product-name">{product.name}</h2>
+                                    <p className="product-price">Price:
+                                        ${product.price_range.minimum_price.regular_price.value}</p>
+                                    <button className="product-button" onClick={() => handleAddToCart(product.sku)}>Add
+                                        to
+                                        Cart
+                                    </button>
+                                </div>
+                            </div>
+                        ))}
                     </div>
-                ))}
+                </div>
+                {error && <p style={{color: 'red'}}>{error}</p>} {/* Hiển thị thông báo lỗi nếu có */}
             </div>
-        </div>
+            <Footer/>
+        </>
+
     );
 }
 
-export default ListProduct;
+export default ListPage;

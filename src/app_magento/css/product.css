@@ -19,7 +19,7 @@ h1 {
     list-style: none;
     padding: 20px;
     margin-bottom: 20px;
-    min-height: 400px;
+    min-height: 100px;
 }
 
 .product-card {
@@ -32,6 +32,8 @@ h1 {
     display: flex;
     flex-flow: column;
     justify-content: space-between;
+    width: 90%;
+    height: 95%;
 }
 
 .wrapper-img {
@@ -147,4 +149,45 @@ input[type="number"]:hover {
 input[type="number"]:focus {
     border-color: #0056b3; /* Đổi màu viền khi focus */
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Hiệu ứng đổ bóng khi focus */
+}
+
+.product-list {
+    display: flex;
+}
+
+.list-product--content h1 {
+    text-align: left;
+    margin-left: 22px;
+}
+
+.list-product--siderbar {
+    border: 1px solid #cccccc;
+    width: 15%;
+    max-height: 700px;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.list-product--siderbar ul {
+    border: 1px solid #888484;
+    text-align: left;
+    margin: 0;
+    padding: 0;
+    border-radius: 5px;
+}
+
+.list-product--siderbar ul li {
+    display: block;
+    cursor: pointer;
+    padding: 10px 20px 10px 20px;
+    font-weight: 500;
+}
+
+.list-product--siderbar ul li:hover {
+    background: rgba(51, 51, 51, 0.71);
+    color: #f4f4f4;
+}
+
+.list-product--content {
+    width: 85%;
 }

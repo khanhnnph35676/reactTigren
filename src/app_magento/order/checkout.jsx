@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import Header from '../layout/header';
 import Footer from '../layout/footer';
 // import '../css/style.css'
-import '../css/checkout.css'
 import {BASE_URL} from '../link';
 import axios from 'axios';
 
