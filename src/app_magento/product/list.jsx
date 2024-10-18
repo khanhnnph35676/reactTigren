@@ -110,8 +110,9 @@ function ListProduct() {
                 });
                 const result = await response.json();
                 if (result.data) {
-                    console.log('Product added to cart:', result.data);
-                    // Cập nhật giỏ hàng hoặc hiển thị thông báo thành công cho người dùng
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1);
                 } else {
                     console.error('Failed to add product to cart:', result.errors);
                 }

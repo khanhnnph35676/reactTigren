@@ -64,63 +64,63 @@ function ListPage() {
 
         fetchProducts(); // Gọi hàm khi component được render
     }, []);
-    const handleAddToCart = async (sku, quantity = 1) => {
-        const cartId = localStorage.getItem('cartId');
-        const tokenData = localStorage.getItem('customerToken');
-        const token = tokenData ? JSON.parse(tokenData).token : null;
-        console.log(cartId)
-        const mutation = `
-            mutation {
-              addSimpleProductsToCart(
-                input: {
-                  cart_id: "${cartId}"
-                  cart_items: [
-                    {
-                      data: {
-                        sku: "${sku}",
-                        quantity: ${quantity}
-                      }
-                    }
-                  ]
-                }
-              ) {
-                cart {
-                  items {
-                    id
-                    product {
-                      name
-                      sku
-                    }
-                    quantity
-                  }
-                }
-              }
-            }
-          `;
-        if (window.confirm('Are you sure you want to add to cart?')) {
-            try {
-                const response = await fetch(URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`, // Token của người dùng (nếu cần)
-                    },
-                    body: JSON.stringify({
-                        query: mutation,
-                    }),
-                });
-                const result = await response.json();
-                if (result.data) {
-                    console.log('Product added to cart:', result.data);
-                    // Cập nhật giỏ hàng hoặc hiển thị thông báo thành công cho người dùng
-                } else {
-                    console.error('Failed to add product to cart:', result.errors);
-                }
-            } catch (error) {
-                console.error('Error during Add to Cart:', error);
-            }
-        }
-    };
+    // const handleAddToCart = async (sku, quantity = 1) => {
+    //     const cartId = localStorage.getItem('cartId');
+    //     const tokenData = localStorage.getItem('customerToken');
+    //     const token = tokenData ? JSON.parse(tokenData).token : null;
+    //     console.log(cartId)
+    //     const mutation = `
+    //         mutation {
+    //           addSimpleProductsToCart(
+    //             input: {
+    //               cart_id: "${cartId}"
+    //               cart_items: [
+    //                 {
+    //                   data: {
+    //                     sku: "${sku}",
+    //                     quantity: ${quantity}
+    //                   }
+    //                 }
+    //               ]
+    //             }
+    //           ) {
+    //             cart {
+    //               items {
+    //                 id
+    //                 product {
+    //                   name
+    //                   sku
+    //                 }
+    //                 quantity
+    //               }
+    //             }
+    //           }
+    //         }
+    //       `;
+    //     if (window.confirm('Are you sure you want to add to cart?')) {
+    //         try {
+    //             const response = await fetch(URL, {
+    //                 method: 'POST',
+    //                 headers: {
+    //                     'Content-Type': 'application/json',
+    //                     'Authorization': `Bearer ${token}`, // Token của người dùng (nếu cần)
+    //                 },
+    //                 body: JSON.stringify({
+    //                     query: mutation,
+    //                 }),
+    //             });
+    //             const result = await response.json();
+    //             if (result.data) {
+    //                 console.log('Product added to cart:', result.data);
+    //                 // Cập nhật giỏ hàng hoặc hiển thị thông báo thành công cho người dùng
+    //             } else {
+    //                 console.error('Failed to add product to cart:', result.errors);
+    //             }
+    //         } catch (error) {
+    //             console.error('Error during Add to Cart:', error);
+    //         }
+    //     }
+    // };
     return (
         <>
             <Header/>
@@ -149,7 +149,9 @@ function ListPage() {
                                     <h2 className="product-name">{product.name}</h2>
                                     <p className="product-price">Price:
                                         ${product.price_range.minimum_price.regular_price.value}</p>
-                                    <button className="product-button" onClick={() => handleAddToCart(product.sku)}>Add
+                                    <button className="product-button"
+                                            // onClick={() => handleAddToCart(product.sku)}
+                                    >Add
                                         to
                                         Cart
                                     </button>

@@ -478,6 +478,16 @@ button[type="submit"]:hover {
     color: white;
 }
 
+.modal {
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.modal-overlay {
+    background: rgba(0, 0, 0, 0.5);
+}
+
 /*------------------------ end cart-----------------------*/
 
 /*------------------------ start Responsive-----------------------*/
